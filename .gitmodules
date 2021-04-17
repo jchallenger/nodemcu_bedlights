@@ -1,0 +1,3 @@
+[submodule "lib/LEDStrip"]
+	path = lib/LEDStrip
+	url = git@github.com:jchallenger/nodemcu_ledstrip.git
