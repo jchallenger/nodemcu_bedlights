@@ -1,0 +1,22 @@
+{
+    "cSpell.words": [
+        "CRGB",
+        "LEDs",
+        "WIFI",
+        "println",
+        "ssid"
+    ],
+    "files.associations": {
+        "array": "cpp",
+        "bitset": "cpp",
+        "initializer_list": "cpp",
+        "regex": "cpp"
+    },
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "**/*.code-search": true,
+        "**/.pio": true
+    },
+    "editor.formatOnSave": true
+}
