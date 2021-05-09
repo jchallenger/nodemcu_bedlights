@@ -26,7 +26,7 @@ const char *ssid = "HomeNet-24";
 const char *password = "fourwordsalluppercase";
 int reqConnect = 0;
 int isConnected = 0;
-const long reqConnectNum = 15; // number of intervals to wait for connection
+const long reqConnectNum = 150; // number of intervals to wait for connection
 
 AsyncWebServer server(80);
 
@@ -62,7 +62,6 @@ void setup(void) {
   for (int ii = 20; ii < NUM_LEDS; ii++) {
     leds[ii] = CRGB(100, 0, 100);
     led_animation_blink *li = new led_animation_blink(leds[ii], PLAYMODE::PING);
-    li->setColorRange(CRGB(200, 0, 200), CRGB(0, 50, 0));
     li->setDuration(5 * 1000);
     myLEDs->addLight(li);
   }
@@ -118,8 +117,8 @@ void loop(void) {
 
     if (WiFi.status() != WL_CONNECTED && reqConnect > reqConnectNum &&
         isConnected < 2) {
+      reqConnect = 0;
       WiFi.begin(ssid, password);
-      Serial.print(".");
     }
 
     if (isConnected < 2) {
@@ -127,22 +126,6 @@ void loop(void) {
 
     // Analog IN
     int sensorValue = analogRead(A0);
-    Serial.print((String) "now=" + now + "  sincelast= " + (now - lTime) +
-                 "  upf= " + ticks);
-    Serial.print((String) "  LED[50]=" + myLEDs->getLight(50)->getValue() +
-                 " - " + myLEDs->getLight(50)->getProgress());
-    /*
-    Serial.print("  LED[1]=");
-    Serial.print(myLEDs->getLight(1)->getProgress());
-    Serial.print("  LED[10]=");
-    Serial.print(myLEDs->getLight(10)->getValue());
-    Serial.print("  LED[100]=");
-    Serial.print(myLEDs->getLight(100)->getValue());
-    Serial.print("  LED[150]=");
-    Serial.print(myLEDs->getLight(150)->getProgress());
-    */
-    Serial.println((String) "  sensor = " + sensorValue);
-
     // set Brightness
     myLEDs->setBrightness(sensorValue / 1024.f);
     // apply LEDs
