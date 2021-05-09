@@ -55,13 +55,13 @@ void setup(void) {
   myLEDs = new LEDStrip();
 
   // Wifi indicators
-  for (int ii = 0; ii < 20; ii++) {
+  for (int ii = 0; ii < 5; ii++) {
     leds[ii] = CRGB(0, 200, 50);
     myLEDs->addLight(new led_animation(leds[ii]));
   }
-  for (int ii = 20; ii < NUM_LEDS; ii++) {
+  for (int ii = 5; ii < NUM_LEDS; ii++) {
     leds[ii] = CRGB(100, 0, 100);
-    led_animation_blink *li = new led_animation_blink(leds[ii], PLAYMODE::PING);
+    led_animation *li = new led_animation_blink(leds[ii], PLAYMODE::PING);
     li->setDuration(5 * 1000);
     myLEDs->addLight(li);
   }
@@ -122,12 +122,17 @@ void loop(void) {
     }
 
     if (isConnected < 2) {
+      EVERY_N_SECONDS(10) { Serial.println("Connected to the Wifi"); }
     }
 
     // Analog IN
-    int sensorValue = analogRead(A0);
+    float sensorValue = map(analogRead(A0), 0, 1023, 0, 255);
+
+    Serial.println((String) "UPF=" + ticks + "  >> L50 " +
+                   myLEDs->getLight(50)->getProgress() + " s" + sensorValue);
+
     // set Brightness
-    myLEDs->setBrightness(sensorValue / 1024.f);
+    myLEDs->setBrightness(sensorValue);
     // apply LEDs
     myLEDs->display();
 
